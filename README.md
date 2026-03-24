@@ -23,7 +23,7 @@ suffer'*. With that out of the way, here are the main things that this plugin do
 - [ ] Eye Contact Prevention – Make awkward eye contact a thing of the past!
 - [ ] Chat Censorship – Are you tired of players screaming SIX SEVENNNN? No? Then never fear, this plugin will solve
       your non-existent issue straight away<sup>1</sup>.
-- [ ]  
+- [ ]  *idk, other really bad things*
 
 If you have any ideas of your own as to how you can make your players (or server owners) suffer **more**, why not make
 an [issue](https://github.com/EvilSquirrelGuy/SocialCredit-StupidAddon/issues) or even a
@@ -43,6 +43,11 @@ does everything so well! ~~(Or realistically, so badly, but shhhh.)~~
   *deserve* to use the __whole__ damn thing.
 - *Non-existent* extension API. Jokes aside, you're not supposed to extend this addon... with more addons. If you want to
   add new features, please just make a PR.
+
+
+## Configuration
+
+TODO: add configuration guide. good luck, you're on your own
 
 ## Compiling
 
