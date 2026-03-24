@@ -12,8 +12,7 @@ was malicious and added the worst features you could possibly imagine to it?
 No? Well I did. That's why I decided to create the *'SocialCredit – Stupid Addon'*!
 
 Where SocialCredit will add interesting new totalitarian-flavoured features to your server that make you reconsider how
-you do certain things, the Stupid Addon cranks those features up to 11. 
-
+you do certain things, the Stupid Addon cranks those features up to 11.
 
 ## Key 'Features'
 
@@ -33,6 +32,17 @@ an [issue](https://github.com/EvilSquirrelGuy/SocialCredit-StupidAddon/issues) o
 ***
 <sup>1</sup> or make it worse...
 
+
+## Actual Features
+
+In case you'd rather know the *how* rather than the *what*, don't worry, i gotchu bro. This is a list of how the plugin
+does everything so well! ~~(Or realistically, so badly, but shhhh.)~~
+
+- ~~Easy~~ *Horrible* configuration system that uses HTML-as-a-config. You'll end up settling for the defaults!
+- *Configurable* lag-friendly design. It *can* be lag-friendly, but think about it. You paid for the whole CPU, so you
+  *deserve* to use the __whole__ damn thing.
+- *Non-existent* extension API. Jokes aside, you're not supposed to extend this addon... with more addons. If you want to
+  add new features, please just make a PR.
 
 ## Compiling
 
