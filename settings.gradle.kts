@@ -1,2 +1,1 @@
-rootProject.name = "SocialCredit-StupidAddon"
-
+rootProject.name = 'SocialCreditStupidAddon'

@@ -52,3 +52,16 @@ TODO: add configuration guide. good luck, you're on your own
 ## Compiling
 
 That's the neat part – you don't.
+
+<details>
+<summary>Unimplemented Features</summary>
+
+This section details some features that will never make it into the plugin. Nonetheless, it might be interesting to see
+just how bad this plugin could have been if I had wanted/been able to implement them.
+
+- Malbolge Config file – no. just no. it would literally be **impossible** to configure anything
+- Brainfuck Config file – while brainfuck isn't _as_ bad as the above, still a no. also introduces security risks ig, but
+  you'd have to be fucking mental to write malware in brainfuck.
+- and more!
+
+</details>
