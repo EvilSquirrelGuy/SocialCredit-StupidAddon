@@ -1,15 +1,15 @@
 # human-facing metadata
-name: SocialCreditStupidAddon
-version: '0.1'
-prefix: SC-StupidAddon
-description: Super-annoying features that no-one in their right mind would want on a server.
-website: https://github.com/EvilSquirrelGuy/SocialCredit-StupidAddon
+name: ${name}
+version: ${version}
+prefix: ${prefix}
+description: ${description}
+website: ${website}
 
 # authorship
-authors: [EvilSquirrelGuy]
-contributors: [ ] # if you contributed, you can add your github username here
+authors: ${authors}
+contributors: ${contributors} # if you contributed, you can add your github username here
 
 # dev stuff
-api-version: '1.21'
-main: dev.evilsquirrelguy.sc_stupidaddon.SocialCreditStupidAddon
+api-version: ${api_version}
+main: ${main}
 depend: [SocialCredit]

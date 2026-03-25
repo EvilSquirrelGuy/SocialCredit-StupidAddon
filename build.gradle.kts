@@ -6,8 +6,10 @@ plugins {
     id("com.gradleup.shadow") version "9.4.0"
 }
 
-group = "dev.evilsquirrelguy"
-version = "0.1"
+group = project.property("group") as String
+version = project.property("version") as String
+
+val targetMcVersion = project.property("target") as String
 
 repositories {
     mavenCentral()
@@ -29,19 +31,18 @@ dependencies {
     // yes.
     // implementation("org.spongepowered:configurate-xml:4.2.0")
     // Paper API
-    compileOnly("io.papermc.paper:paper-api:1.21-R0.1-SNAPSHOT")
+    compileOnly("io.papermc.paper:paper-api:${targetMcVersion}-R0.1-SNAPSHOT")
     // Compilation libs
     // dynamic link
     compileOnly(files("lib/SocialCredit_v1.6.2.jar"))
     // needed in final
     implementation("org.jsoup:jsoup:1.22.1")
     implementation("dev.evilsquirrelguy.jhaac:jhaac:0.1.1")
-    //implementation(files("lib/JHAAC-0.1.jar"))
 }
 
 tasks {
     named<xyz.jpenilla.runpaper.task.RunServer>("runServer") {
-        minecraftVersion("1.21")
+        minecraftVersion(targetMcVersion)
     }
 
     jar {
@@ -84,7 +85,18 @@ tasks.withType<JavaCompile>().configureEach {
 }
 
 tasks.processResources {
-    val props = mapOf("version" to version)
+    // properties for the plugin.json
+    val props = mapOf(
+        "version" to version,
+        "name" to project.property("name") as String,
+        "description" to project.property("description") as String,
+        "website" to project.property("website") as String,
+        "authors" to (project.property("authors") as String).trim('[', ']').split(","),
+        "contributors" to (project.property("contributors") as String).trim('[', ']').split(","),
+        "main" to project.property("main") as String,
+        "prefix" to project.property("prefix") as String,
+        "api_version" to targetJavaVersion,
+    )
     inputs.properties(props)
     filteringCharset = "UTF-8"
 
