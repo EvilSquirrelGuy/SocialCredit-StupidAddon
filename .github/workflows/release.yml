@@ -76,10 +76,3 @@ jobs:
           files: |
             build/libs/*.jar
           body_path: CHANGELOG.txt
-
-      - name: Cache tag version
-        id: get_tag
-        run: |
-          echo "tag=$(git describe --tags --exact-match || echo 'no-tag' )" >> $$GITHUB_OUTPUT
-
-
