@@ -27,9 +27,8 @@ gradle-app.setting
 .DS_Store
 
 # server test environment
-run/
+run/**/*
 # but keep important stuff
-!run/*.json
-!run/*.yml
-!run/*.txt
-!run/*.properties
+!run/*.*
+!run/plugins
+!run/config

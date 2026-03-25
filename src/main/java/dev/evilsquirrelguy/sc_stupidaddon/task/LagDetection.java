@@ -5,9 +5,7 @@ import dev.evilsquirrelguy.sc_stupidaddon.SocialCreditStupidAddon;
 import com.example.socialcredit.api.SocialCreditAPI;
 import com.example.socialcredit.api.SocialCreditProvider;
 import dev.evilsquirrelguy.sc_stupidaddon.util.MessageFormatter;
-import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
-import net.kyori.adventure.text.format.NamedTextColor;
 
 import java.util.UUID;
 
@@ -29,19 +27,12 @@ public class LagDetection implements Runnable {
     // read config for threshold and which avg tickrate to read
     String monitorPeriodS = this.plugin.config.getGroup("lag-detect").getEntry("monitor-period").getString();
     // default value
-    int monitorPeriodIndex = 0;
-
-    switch (monitorPeriodS) {
-      case "1m":
-        monitorPeriodIndex = 0;
-        break;
-      case "5m":
-        monitorPeriodIndex = 1;
-        break;
-      case "15m":
-        monitorPeriodIndex = 2;
-        break;
-    }
+    int monitorPeriodIndex = switch (monitorPeriodS) {
+      case "1m" -> 0;
+      case "5m" -> 1;
+      case "15m" -> 2;
+      default -> 0;
+    };
 
     double threshold = this.plugin.config.getGroup("lag-detect").getEntry("threshold").getDouble();
     double tickRate = this.plugin.getServer().getTPS()[monitorPeriodIndex];

@@ -34,8 +34,8 @@ public class EyeContactDetection implements Runnable {
     this.reason = cfg.getEntry("reason").getString();
 
     // initialise the funny data objects
-    this.eyeContactPairs = new HashMap<UUID, UUID>();
-    this.eyeContactTimes = new HashMap<UUID, Long>();
+    this.eyeContactPairs = new HashMap<>();
+    this.eyeContactTimes = new HashMap<>();
   }
 
   private void reset(Player player) {

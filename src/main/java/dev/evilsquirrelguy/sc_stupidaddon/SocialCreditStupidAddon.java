@@ -3,6 +3,7 @@ package dev.evilsquirrelguy.sc_stupidaddon;
 import dev.evilsquirrelguy.jhaac.Config;
 import dev.evilsquirrelguy.jhaac.ConfigFile;
 import dev.evilsquirrelguy.jhaac.ConfigGroup;
+import dev.evilsquirrelguy.sc_stupidaddon.listener.ChatCensorshipListener;
 import dev.evilsquirrelguy.sc_stupidaddon.task.EyeContactDetection;
 import dev.evilsquirrelguy.sc_stupidaddon.task.LagDetection;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -13,7 +14,6 @@ import org.bukkit.scheduler.BukkitScheduler;
 import java.io.File;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
-import java.util.logging.Logger;
 
 public final class SocialCreditStupidAddon extends JavaPlugin {
 
@@ -76,7 +76,7 @@ public final class SocialCreditStupidAddon extends JavaPlugin {
 
     if (modules.getEntry("chat-censor").getBoolean()) {
       // enable chat ~~censorship~~ scanning
-      // this.getServer().getPluginManager().registerEvents(new ChatCensorshipListener(this), this);
+      this.getServer().getPluginManager().registerEvents(new ChatCensorshipListener(this), this);
     }
 
 
