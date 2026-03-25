@@ -26,9 +26,19 @@ gradle-app.setting
 # macos
 .DS_Store
 
-# server test environment
-run/**/*
-# but keep important stuff
+# ignore everything in run (server test env)
+run/*
+
+# allow root files
 !run/*.*
-!run/plugins
-!run/config
+
+# allow directories themselves
+!run/plugins/
+!run/config/
+
+# then allow their contents
+!run/plugins/**
+!run/config/**
+
+# and finally disallow paper remapped
+run/plugins/.*

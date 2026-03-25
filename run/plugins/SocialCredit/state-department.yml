@@ -1,0 +1,45 @@
+enabled: true
+
+access:
+  minimum-social-credit: 0
+  negative-score-withdraw-blocked: true
+  daily-withdraw-credit-cap: 500
+  max-withdraw-stacks-per-day: 4
+
+deposits:
+  social-credit-bonus-threshold: 100
+  social-credit-bonus: 1
+
+display:
+  enforce-sign-terminal: true
+  line-1: "[State Dept]"
+  line-2: "Resources"
+  line-3: "Right Click"
+  line-4: "To Access"
+
+gui:
+  title: "State Resource Department"
+  deposit-title: "Deposit Resources"
+  withdraw-title: "Withdraw Resources"
+
+resources:
+  COBBLESTONE:
+    deposit-credit: 1
+    withdraw-credit: 2
+    max-withdraw-per-transaction: 64
+    enabled: true
+  OAK_LOG:
+    deposit-credit: 2
+    withdraw-credit: 4
+    max-withdraw-per-transaction: 32
+    enabled: true
+  IRON_INGOT:
+    deposit-credit: 6
+    withdraw-credit: 10
+    max-withdraw-per-transaction: 16
+    enabled: true
+  DIAMOND:
+    deposit-credit: 20
+    withdraw-credit: 35
+    max-withdraw-per-transaction: 4
+    enabled: true
