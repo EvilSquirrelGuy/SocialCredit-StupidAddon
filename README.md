@@ -7,7 +7,7 @@
 
 <!-- TODO: Add more fancy badges :) -->
 
-Have you ever contemplated what life would be like if the developer of the [SocialCredit](https://rickroll.link) plugin
+Have you ever contemplated what life would be like if the developer of the [SocialCredit](https://github.com/ZeeRaider/SocialCredit) plugin
 was malicious and added the worst features you could possibly imagine to it?
 
 No? Well I did. That's why I decided to create the *'SocialCredit – Stupid Addon'*!
@@ -22,8 +22,8 @@ suffer'*. With that out of the way, here are the main things that this plugin do
 
 - [x] Low TPS Punishment – Punish your players for something that isn't really their fault... Server Lag!
 - [x] Eye Contact Prevention – Make awkward eye contact a thing of the past! [untested]
-- [ ] Chat Censorship – Are you tired of players screaming SIX SEVENNNN? No? Then never fear, this plugin will solve
-      your non-existent issue straight away<sup>1</sup>.
+- [x] Chat Censorship – Are you tired of players screaming SIX SEVENNNN? No? Then never fear, this plugin will solve
+      your non-existent issue straight away<sup>1</sup>. [untested]
 - [ ]  *idk, other really bad things*
 
 If you have any ideas of your own as to how you can make your players (or server owners) suffer **more**, why not make
