@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="icon.png" width="256" height="256"/>
+  <img src="img/icon.png" width="256" height="256"/>
   <h1>SocialCredit – Stupid Addon</h1>
 </div>
 
@@ -24,9 +24,9 @@ Most of the features of this plugin won't really feel coherent to any single the
 suffer'*. With that out of the way, here are the main things that this plugin does:
 
 - [x] Low TPS Punishment – Punish your players for something that isn't really their fault... Server Lag!
-- [x] Eye Contact Prevention – Make awkward eye contact a thing of the past! [untested]
+- [x] Eye Contact Prevention – Make awkward eye contact a thing of the past!
 - [x] Chat Censorship – Are you tired of players screaming SIX SEVENNNN? No? Then never fear, this plugin will solve
-      your non-existent issue straight away<sup>1</sup>. [untested]
+      your non-existent issue straight away<sup>1</sup>.
 - [ ]  *idk, other really bad things*
 
 If you have any ideas of your own as to how you can make your players (or server owners) suffer **more**, why not make
