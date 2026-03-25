@@ -2,6 +2,7 @@
 
 ![GitHub Licence](https://img.shields.io/github/license/EvilSquirrelGuy/SocialCredit-StupidAddon?style=plastic&label=licence)
 ![GitHub last commit](https://img.shields.io/github/last-commit/EvilSquirrelGuy/SocialCredit-StupidAddon?display_timestamp=author&style=plastic)
+![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/EvilSquirrelGuy/SocialCredit-StupidAddon/gradle_ci.yml?style=plastic&logo=github)
 ![Powered by Monster](https://img.shields.io/badge/Powered_by-Monster-greenyellow?style=plastic)
 
 <!-- TODO: Add more fancy badges :) -->
