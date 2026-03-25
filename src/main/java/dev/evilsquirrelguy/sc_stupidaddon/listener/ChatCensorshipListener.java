@@ -14,12 +14,12 @@ import java.util.regex.Matcher;
 
 public class ChatCensorshipListener implements Listener {
 
-  private SocialCreditStupidAddon plugin;
+  private final SocialCreditStupidAddon plugin;
   // config stuff
-  private ArrayList<Pattern> badWords;
-  private String reason;
-  private String message;
-  private int penalty;
+  private final ArrayList<Pattern> badWords;
+  private final String reason;
+  private final String message;
+  private final int penalty;
 
   public ChatCensorshipListener(SocialCreditStupidAddon plugin) {
     this.plugin = plugin;
