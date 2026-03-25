@@ -1,5 +1,5 @@
-<div style="text-align: center">
-  <img src="icon.png" width="192" height="192"/>
+<div align="center">
+  <img src="icon.png" width="256" height="256"/>
   <h1>SocialCredit – Stupid Addon</h1>
 </div>
 
@@ -9,8 +9,6 @@
 ![Powered by Monster](https://img.shields.io/badge/Powered_by-Monster-greenyellow?style=plastic)
 
 <!-- TODO: Add more fancy badges :) -->
-
-***
 
 Have you ever contemplated what life would be like if the developer of the [SocialCredit](https://github.com/ZeeRaider/SocialCredit) plugin
 was malicious and added the worst features you could possibly imagine to it?
