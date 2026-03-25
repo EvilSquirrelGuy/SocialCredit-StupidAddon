@@ -1,5 +1,6 @@
 package dev.evilsquirrelguy.sc_stupidaddon.listener;
 
+import dev.evilsquirrelguy.jhaac.ConfigGroup;
 import dev.evilsquirrelguy.sc_stupidaddon.SocialCreditStupidAddon;
 import dev.evilsquirrelguy.sc_stupidaddon.util.MessageFormatter;
 import io.papermc.paper.event.player.AsyncChatEvent;
@@ -25,7 +26,10 @@ public class ChatCensorshipListener implements Listener {
     this.plugin = plugin;
     // load the bad words from the config
     this.badWords = new ArrayList<>();
-    plugin.config.getEntry("chat-censor.messages").getList().forEach(el -> {
+
+    ConfigGroup cfg = plugin.config.getGroup("chat-censor");
+
+    cfg.getEntry("messages").getList().forEach(el -> {
       String[] tokenised = el.getString().split("/", -1);
       // parse into regex
       Pattern pattern = Pattern.compile(
@@ -38,9 +42,9 @@ public class ChatCensorshipListener implements Listener {
     });
 
     // load the other things from the config
-    this.reason = plugin.config.getEntry("chat-censor.reason").getString();
-    this.message = plugin.config.getEntry("chat-censor.message").getString();
-    this.penalty = plugin.config.getEntry("chat-censor.penalty").getInt();
+    this.reason = cfg.getEntry("reason").getString();
+    this.message = cfg.getEntry("message").getString();
+    this.penalty = cfg.getEntry("penalty").getInt();
   }
 
 
