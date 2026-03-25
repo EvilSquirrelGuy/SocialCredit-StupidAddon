@@ -14,10 +14,17 @@ public class MessageFormatter {
    */
   public static TextComponent stateBroadcast(String message) {
     return (Component
-        .text("[STATE BROADCAST]")
+        .text("[STATE BROADCAST] ")
         .color(NamedTextColor.GOLD)
         .append(Component.text(message, NamedTextColor.RED))
     );
+  }
 
+  public static TextComponent ministryNotification(String message, boolean positive) {
+    return (Component
+        .text("[Ministry] ")
+        .color(NamedTextColor.GOLD)
+        .append(Component.text(message, positive ? NamedTextColor.GREEN : NamedTextColor.RED))
+    );
   }
 }

@@ -96,7 +96,7 @@ public class EyeContactDetection implements Runnable {
         // TODO: come up with a more official sounding template for notifying the player
         player.sendMessage(
             // fill in other player's name
-            MessageFormatter.stateBroadcast(message.replace("$1", target.getName()))
+            MessageFormatter.ministryNotification(message.replace("$1", target.getName()), false)
         );
       } else {
         // ok they're just continuing looking, add a tick

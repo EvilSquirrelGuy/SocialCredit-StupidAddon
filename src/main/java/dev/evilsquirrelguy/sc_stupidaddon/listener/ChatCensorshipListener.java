@@ -75,7 +75,7 @@ public class ChatCensorshipListener implements Listener {
       );
       // notify
       player.sendMessage(
-          MessageFormatter.stateBroadcast(this.message)
+          MessageFormatter.ministryNotification(this.message, false)
       );
 
     });
