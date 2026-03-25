@@ -7,34 +7,19 @@ on:
       - prereleased
 
 jobs:
-  download:
-    name: Download Latest Plugin JAR
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Download latest release jar
-        run: |
-          # get latest release info
-          ASSET_INFO=$(curl -s -H "Accept: application/vnd.github+json" \
-            https://api.github.com/repos/${{ github.repository }}/releases/${{ github.event.release.tag_name }} \
-            | jq -r '.assets[] | select(.name | endswith(".jar")) | "\(.name)|\(.browser_download_url)"')
-          
-          NAME=$(echo "$ASSET_INFO" | cut -d'|' -f1)
-          URL=$(echo "$ASSET_INFO" | cut -d'|' -f2)
-          
-          echo "Downloading $NAME from $URL"
-          curl -L -o "$NAME" "$URL"
-          
-          echo "JAR_NAME=$NAME" >> $GITHUB_ENV
-    
-
   modrinth:
     name: Upload to Modrinth
     runs-on: ubuntu-latest
-    needs: download
     if: false # skip until we have modrinth approval
 
     steps:
+      - name: Download plugin JAR
+        uses: robinraju/release-downloader@v1
+        with:
+          latest: true
+          fileName: '*.jar'
+          out-file-path: 'download'
+
       - name: Publish to Modrinth
         if: false # skip for now
         uses: cloudnode-pro/modrinth-publish@v2
@@ -47,6 +32,7 @@ jobs:
           # channel: alpha
           game-versions: |-
             1.21.x
+            1.20.6
           # if we test/support more, add them here
           # 1.20.6
           # 26.1.x
@@ -55,7 +41,7 @@ jobs:
             spigot
             bukkit
           files: |-
-            build/libs/*.jar
+            download/*.jar
           dependencies: |- 
             [{
               "project_id": "8hfcZ97y",
@@ -66,21 +52,46 @@ jobs:
   spigotmc:
     name: Upload to SpigotMC Resources
     runs-on: ubuntu-latest
-    needs: download
     if: false # skip until we figure this out
+
+    steps:
+      - name: Download plugin JAR
+        uses: robinraju/release-downloader@v1
+        with:
+          latest: true
+          fileName: '*.jar'
+          out-file-path: 'download'
+
+      - run: exit
 
   hangar:
     name: Upload to PaperMC Hangar
     runs-on: ubuntu-latest
-    needs: download
     if: false # skip until configured
+
+    steps:
+      - name: Download plugin JAR
+        uses: robinraju/release-downloader@v1
+        with:
+          latest: true
+          fileName: '*.jar'
+          out-file-path: 'download'
+
+      - run: exit
 
   test_server:
     name: Deploy to Test Server
     runs-on: ubuntu-latest
-    needs: download
 
     steps:
+      - name: Download plugin JAR
+        id: download
+        uses: robinraju/release-downloader@v1
+        with:
+          latest: true
+          fileName: '*.jar'
+          out-file-path: 'download'
+
       - name: Stop server
         run: |
           curl --request POST \
@@ -123,7 +134,7 @@ jobs:
 
           curl --request POST \
             --url '${{ env.SIGNED_URL }}' \
-            -F "file=@${{ env.JAR_NAME }}" \
+            -F "file=@ ${{ fromJson(steps.download.outputs.downloaded_files)[0] }}" \
             -F "directory=plugins"
 
       - name: Start server
