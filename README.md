@@ -19,8 +19,8 @@ you do certain things, the Stupid Addon cranks those features up to 11.
 Most of the features of this plugin won't really feel coherent to any single theme, apart from one: *'Making **everyone**
 suffer'*. With that out of the way, here are the main things that this plugin does:
 
-- [ ] Low TPS Punishment – Punish your players for something that isn't really their fault... Server Lag!
-- [ ] Eye Contact Prevention – Make awkward eye contact a thing of the past!
+- [x] Low TPS Punishment – Punish your players for something that isn't really their fault... Server Lag!
+- [x] Eye Contact Prevention – Make awkward eye contact a thing of the past! [untested]
 - [ ] Chat Censorship – Are you tired of players screaming SIX SEVENNNN? No? Then never fear, this plugin will solve
       your non-existent issue straight away<sup>1</sup>.
 - [ ]  *idk, other really bad things*
