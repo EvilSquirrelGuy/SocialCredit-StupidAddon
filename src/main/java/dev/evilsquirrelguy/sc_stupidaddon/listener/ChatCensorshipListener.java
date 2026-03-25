@@ -1,7 +1,9 @@
 package dev.evilsquirrelguy.sc_stupidaddon.listener;
 
 import dev.evilsquirrelguy.sc_stupidaddon.SocialCreditStupidAddon;
+import dev.evilsquirrelguy.sc_stupidaddon.util.MessageFormatter;
 import io.papermc.paper.event.player.AsyncChatEvent;
+import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -12,8 +14,12 @@ import java.util.regex.Matcher;
 
 public class ChatCensorshipListener implements Listener {
 
-  ArrayList<Pattern> badWords;
-  SocialCreditStupidAddon plugin;
+  private SocialCreditStupidAddon plugin;
+  // config stuff
+  private ArrayList<Pattern> badWords;
+  private String reason;
+  private String message;
+  private int penalty;
 
   public ChatCensorshipListener(SocialCreditStupidAddon plugin) {
     this.plugin = plugin;
@@ -31,24 +37,43 @@ public class ChatCensorshipListener implements Listener {
       badWords.add(pattern);
     });
 
+    // load the other things from the config
+    this.reason = plugin.config.getEntry("chat-censor.reason").getString();
+    this.message = plugin.config.getEntry("chat-censor.message").getString();
+    this.penalty = plugin.config.getEntry("chat-censor.penalty").getInt();
   }
 
 
   @EventHandler
   public void onIncomingChat(AsyncChatEvent event) {
-    // TODO: store raw text form of chat message from async here
     Player player = event.getPlayer();
+    String rawMessage = PlainTextComponentSerializer.plainText().serialize(event.message());
     // String rawMessage = event.originalMessage() //whatever, serialise it here
 
-    // TODO: add sync code here
     this.plugin.getServer().getScheduler().runTask(this.plugin, () -> {
-      // analyse message contents
-      // each hit increases penalty... probably
+      int detections = 0;
+
+      // check all patterns
+      for (Pattern pattern : badWords) {
+        // scan message for matches
+        Matcher matcher = pattern.matcher(rawMessage);
+        if (matcher.find()) detections++;
+      }
+
+      if (detections == 0) return;
 
       // reduce sc
-      // this.plugin.scApi.addScore(player.getUniqueId(), player.getName(), -1, "dummy text");
+      this.plugin.scApi.addScore(
+          player.getUniqueId(),
+          player.getName(),
+          -1 * detections * this.penalty,
+          this.reason
+      );
       // notify
-      // ...
+      player.sendMessage(
+          MessageFormatter.stateBroadcast(this.message)
+      );
+
     });
   }
 }
