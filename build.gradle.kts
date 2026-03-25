@@ -1,4 +1,5 @@
-//import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
+import xyz.jpenilla.runpaper.task.RunServer
+import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 
 plugins {
     java
@@ -41,7 +42,7 @@ dependencies {
 }
 
 tasks {
-    named<xyz.jpenilla.runpaper.task.RunServer>("runServer") {
+    named<RunServer>("runServer") {
         minecraftVersion(targetMcVersion)
     }
 
@@ -54,7 +55,8 @@ tasks {
     }
 
     // only works if shadow plugin is applied
-    named<com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar>("shadowJar") {
+    @Suppress("UnresolvedReference")
+    named<ShadowJar>("shadowJar") {
         manifest {
             attributes(
                 "paperweight-mappings-namespace" to "mojang"
