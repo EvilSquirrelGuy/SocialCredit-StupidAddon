@@ -16,7 +16,7 @@ public class MessageFormatter {
     return (Component
         .text("[STATE BROADCAST]")
         .color(NamedTextColor.GOLD)
-        .append(Component.text(message, NamedTextColor.GOLD))
+        .append(Component.text(message, NamedTextColor.RED))
     );
 
   }
