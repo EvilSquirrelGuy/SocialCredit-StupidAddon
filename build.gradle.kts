@@ -1,6 +1,7 @@
 import xyz.jpenilla.runpaper.task.RunServer
 import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 
+
 plugins {
     java
     id("xyz.jpenilla.run-paper") version "2.3.1"
@@ -10,7 +11,28 @@ plugins {
 group = project.property("group") as String
 version = project.property("version") as String
 
+
+
+
 val targetMcVersion = project.property("target") as String
+
+val mcVersionArray = targetMcVersion.split(".").map(String::toInt)
+
+fun isOlder(ver1: List<Int>, ver2: List<Int>): Boolean {
+    // is version 1 older than version 2
+    // pad the version to include zeroes
+    fun padVersion(v: List<Int>, length: Int = 3): List<Int> {
+        return List(length) { i -> v.getOrElse(i) { 0 } }
+    }
+
+    val ver1p = padVersion(ver1)
+    val ver2p = padVersion(ver2)
+
+    for (i in 0..2) {
+        if (ver1p[i] != ver2p[i]) return ver1p[i] < ver2p[i]
+    }
+    return false // versions are equal
+}
 
 repositories {
     mavenCentral()
@@ -41,26 +63,31 @@ dependencies {
     implementation("dev.evilsquirrelguy.jhaac:jhaac:0.1.1")
 }
 
+
+
 tasks {
     named<RunServer>("runServer") {
         minecraftVersion(targetMcVersion)
     }
 
     jar {
-        manifest {
-            attributes(
-                "paperweight-mappings-namespace" to "mojang"
-            )
+        if (!isOlder(mcVersionArray, listOf(1, 20, 5))) {
+            manifest {
+                attributes(
+                    "paperweight-mappings-namespace" to "mojang"
+                )
+            }
         }
     }
 
     // only works if shadow plugin is applied
-    @Suppress("UnresolvedReference")
-    named<ShadowJar>("shadowJar") {
-        manifest {
-            attributes(
-                "paperweight-mappings-namespace" to "mojang"
-            )
+    shadowJar {
+        if (!isOlder(mcVersionArray, listOf(1, 20, 5))) {
+            manifest {
+                attributes(
+                    "paperweight-mappings-namespace" to "mojang"
+                )
+            }
         }
     }
 }
@@ -97,7 +124,7 @@ tasks.processResources {
         "contributors" to (project.property("contributors") as String).trim('[', ']').split(","),
         "main" to project.property("main") as String,
         "prefix" to project.property("prefix") as String,
-        "api_version" to targetJavaVersion,
+        "api_version" to targetMcVersion,
     )
     inputs.properties(props)
     filteringCharset = "UTF-8"

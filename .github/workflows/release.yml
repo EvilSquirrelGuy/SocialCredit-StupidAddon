@@ -1,0 +1,85 @@
+name: Generate Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build:
+    name: Build Plugin JAR
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      packages: read
+
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Setup JDK 21
+        uses: actions/setup-java@v5
+        with:
+          java-version: 21
+          distribution: "temurin"
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v5
+
+      - name: Build with Gradle Wrapper
+        run: ./gradlew build
+        env:
+          GPR_USER: ${{ github.actor }}
+          GPR_TOKEN: ${{ secrets.GPR_TOKEN }}
+
+      - name: Keep only shadow JAR
+        run: |
+          # delete non-all jars
+          find build/libs -type f -name "*.jar" ! -name "*-all.jar" -delete
+          # rename -all.jar to normal
+          shopt -s nullglob
+          for f in build/libs/*-all.jar; do
+            mv "$f" "${f%-all.jar}.jar"
+          done
+
+  release:
+    name: Create Draft Release
+    runs-on: ubuntu-latest
+    needs: build
+
+    steps:
+      - name: Generate release notes
+        run: |
+          # get last tag, fallback to first commit if no tag exists
+          # last tag or first commit
+          LAST_TAG=$(git describe --tags --abbrev=0 2>/dev/null || git rev-list --max-parents=0 HEAD)
+          FIRST_COMMIT=$(git rev-list --max-parents=0 HEAD)
+          LATEST_COMMIT=$(git rev-parse HEAD)
+          
+          # base repo url
+          REPO_URL=${{github.server_url}}/${{ github.repository }}
+  
+          # create changelog file
+          echo "## New Features\n\n\n# Changelog" > CHANGELOG.txt
+          # generate actual release notes
+          git log $LAST_TAG..HEAD \
+            --pretty=format:"[\`%h\`]($REPO_URL/commit/%H) - %s" \
+            >> CHANGELOG.txt
+          
+          # add link full link to commits
+          COMPARE_START=${LAST_TAG:-$FIRST_COMMIT}
+          echo "Full log: $REPO_URL/compare/$COMPARE_START..$LATEST_COMMIT"
+
+      - name: Create draft release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            build/libs/*.jar
+          body_path: CHANGELOG.txt
+
+      - name: Cache tag version
+        id: get_tag
+        run: |
+          echo "tag=$(git describe --tags --exact-match || echo 'no-tag' )" >> $$GITHUB_OUTPUT
+
+
