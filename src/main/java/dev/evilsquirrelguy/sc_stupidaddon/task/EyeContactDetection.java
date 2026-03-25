@@ -79,7 +79,7 @@ public class EyeContactDetection implements Runnable {
       // side-note, since prevUuid is null if the entry doesn't exist, it's basically the same thing as if
       // we had been looking at someone else before
 
-      if (!prevUuid.equals(target.getUniqueId())) {
+      if (!player.getUniqueId().equals(prevUuid)) {
         eyeContactPairs.put(uuid, target.getUniqueId());
       }
 
