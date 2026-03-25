@@ -42,12 +42,26 @@ jobs:
             mv "$f" "${f%-all.jar}.jar"
           done
 
+      - name: Upload artefacts
+        uses: actions/upload-artifact@v7
+        with:
+          path: build/libs/*.jar
+
   release:
     name: Create Draft Release
     runs-on: ubuntu-latest
     needs: build
 
     steps:
+      - uses: actions/checkout@v6
+
+      - run: mkdir -p download
+
+      - name: Download artefact
+        uses: actions/download-artifact@v8
+        with:
+          path: download
+
       - name: Generate release notes
         run: |
           # get last tag, fallback to first commit if no tag exists
@@ -74,5 +88,5 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           files: |
-            build/libs/*.jar
+            download/*.jar
           body_path: CHANGELOG.txt
