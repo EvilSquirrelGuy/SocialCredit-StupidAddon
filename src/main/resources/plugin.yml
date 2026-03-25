@@ -1,6 +1,6 @@
 # human-facing metadata
 name: SocialCreditStupidAddon
-version: '0.1.0'
+version: '0.1'
 prefix: SC-StupidAddon
 description: Super-annoying features that no-one in their right mind would want on a server.
 website: https://github.com/EvilSquirrelGuy/SocialCredit-StupidAddon

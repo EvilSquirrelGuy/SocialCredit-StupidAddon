@@ -59,7 +59,9 @@ That's the neat part – you don't.
 This section details some features that will never make it into the plugin. Nonetheless, it might be interesting to see
 just how bad this plugin could have been if I had wanted/been able to implement them.
 
-- Malbolge Config file – no. just no. it would literally be **impossible** to configure anything
+- Malbolge Config file – no. just no. it would literally be **impossible** to configure anything.
+  Side note: this could also be combined with the HTML config, and force users to generate malbolge code for any
+  configuration value they want to use. but why...
 - Brainfuck Config file – while brainfuck isn't _as_ bad as the above, still a no. also introduces security risks ig, but
   you'd have to be fucking mental to write malware in brainfuck.
 - and more!

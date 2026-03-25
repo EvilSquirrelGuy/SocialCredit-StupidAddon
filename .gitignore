@@ -1,2 +1,35 @@
-.gradle/
+.gradle
+**/build/
+!**/src/**/build/
+
+# Ignore Gradle GUI config
+gradle-app.setting
+
+# Avoid ignoring Gradle wrapper jar file (.jar files are usually ignored)
+!gradle-wrapper.jar
+
+# Avoid ignore Gradle wrappper properties
+!gradle-wrapper.properties
+
+# Cache of project
+.gradletasknamecache
+
+# Eclipse Gradle plugin generated files
+# Eclipse Core
+.project
+# JDT-specific (Eclipse Java Development Tools)
+.classpath
+
+# environment vars
+.env
+
+# macos
 .DS_Store
+
+# server test environment
+run/
+# but keep important stuff
+!run/*.json
+!run/*.yml
+!run/*.txt
+!run/*.properties

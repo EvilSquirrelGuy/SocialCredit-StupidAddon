@@ -21,5 +21,10 @@
       <option name="name" value="papermc-repo" />
       <option name="url" value="https://repo.papermc.io/repository/maven-public/" />
     </remote-repository>
+    <remote-repository>
+      <option name="id" value="JHaaC" />
+      <option name="name" value="JHaaC" />
+      <option name="url" value="https://maven.pkg.github.com/EvilSquirrelGuy/JHaaC" />
+    </remote-repository>
   </component>
 </project>

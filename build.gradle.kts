@@ -1,5 +1,4 @@
-import xyz.jpenilla.runpaper.task.RunServer
-import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
+//import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 
 plugins {
     java
@@ -8,7 +7,7 @@ plugins {
 }
 
 group = "dev.evilsquirrelguy"
-version = "0.1.0"
+version = "0.1"
 
 repositories {
     mavenCentral()
@@ -16,15 +15,32 @@ repositories {
         name = "papermc-repo"
         url = uri("https://repo.papermc.io/repository/maven-public/")
     }
+    maven {
+        name = "JHaaC"
+        url = uri("https://maven.pkg.github.com/EvilSquirrelGuy/JHaaC")
+        credentials {
+            username = project.findProperty("gpr.user") as String? ?: System.getenv("GPR_USER")
+            password = project.findProperty("gpr.token") as String? ?: System.getenv("GPR_TOKEN")
+        }
+    }
 }
 
 dependencies {
+    // yes.
+    // implementation("org.spongepowered:configurate-xml:4.2.0")
+    // Paper API
     compileOnly("io.papermc.paper:paper-api:1.21-R0.1-SNAPSHOT")
-    compileOnly(files("libs/SocialCredit-1.6.2.jar"))
+    // Compilation libs
+    // dynamic link
+    compileOnly(files("lib/SocialCredit_v1.6.2.jar"))
+    // needed in final
+    implementation("org.jsoup:jsoup:1.22.1")
+    implementation("dev.evilsquirrelguy.jhaac:jhaac:0.1.1")
+    //implementation(files("lib/JHAAC-0.1.jar"))
 }
 
 tasks {
-    named<RunServer>("runServer") {
+    named<xyz.jpenilla.runpaper.task.RunServer>("runServer") {
         minecraftVersion("1.21")
     }
 
@@ -37,7 +53,7 @@ tasks {
     }
 
     // only works if shadow plugin is applied
-    named<ShadowJar>("shadowJar") {
+    named<com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar>("shadowJar") {
         manifest {
             attributes(
                 "paperweight-mappings-namespace" to "mojang"
@@ -45,6 +61,7 @@ tasks {
         }
     }
 }
+
 
 val targetJavaVersion = 21
 
