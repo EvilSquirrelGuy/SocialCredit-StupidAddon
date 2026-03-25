@@ -9,6 +9,7 @@
 ![Powered by Monster](https://img.shields.io/badge/powered_by-Monster-greenyellow?style=plastic)
 
 [![Modrinth Downloads](https://img.shields.io/modrinth/dt/kNMYucNn?style=plastic&logo=modrinth)](https://modrinth.com/plugin/sc-stupidaddon)
+[![Hangar Downloads](https://img.shields.io/hangar/dt/SocialCredit-StupidAddon?style=plastic&label=hangar%20downloads)](https://hangar.papermc.io/EvilSquirrelGuy/SocialCredit-StupidAddon)
 ![GitHub Downloads (all assets, all releases)](https://img.shields.io/github/downloads/EvilSquirrelGuy/SocialCredit-StupidAddon/total?style=plastic&logo=github)
 
 <!-- TODO: Add more fancy badges :) -->
