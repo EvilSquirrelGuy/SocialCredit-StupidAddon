@@ -9,7 +9,7 @@ import io.papermc.paper.command.brigadier.CommandSourceStack;
 import io.papermc.paper.command.brigadier.Commands;
 
 public class ConfigCommands {
-  private SocialCreditStupidAddon plugin;
+  private final SocialCreditStupidAddon plugin;
 
   public ConfigCommands(SocialCreditStupidAddon plugin) {
     this.plugin = plugin;

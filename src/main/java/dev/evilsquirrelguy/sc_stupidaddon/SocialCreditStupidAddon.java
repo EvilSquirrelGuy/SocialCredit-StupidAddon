@@ -15,14 +15,9 @@ import io.papermc.paper.plugin.lifecycle.event.types.LifecycleEvents;
 import org.bukkit.plugin.java.JavaPlugin;
 import com.example.socialcredit.api.SocialCreditAPI;
 import com.example.socialcredit.api.SocialCreditProvider;
-import org.bukkit.scheduler.BukkitScheduler;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public final class SocialCreditStupidAddon extends JavaPlugin {
 

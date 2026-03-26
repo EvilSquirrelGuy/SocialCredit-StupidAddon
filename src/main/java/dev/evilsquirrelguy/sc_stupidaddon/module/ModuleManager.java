@@ -5,26 +5,24 @@ import java.util.HashMap;
 import java.util.List;
 
 public class ModuleManager {
-  private HashMap<String, Module> modules;
+  private final HashMap<String, Module> modules;
 
   public ModuleManager() {
     modules = new HashMap<>();
   }
 
-  public boolean registerModule(String identifier, Module module) {
-    if (this.modules.containsKey(identifier)) return false;
+  public void registerModule(String identifier, Module module) {
+    if (this.modules.containsKey(identifier)) return;
     // add the module, should be enabled later
     this.modules.put(identifier, module);
-    return true;
   }
 
-  public boolean unregisterModule(String identifier) {
-    if (!this.modules.containsKey(identifier)) return false;
+  public void unregisterModule(String identifier) {
+    if (!this.modules.containsKey(identifier)) return;
     // disable module so we're not left with dangling objects
     this.modules.get(identifier).disable();
 
     this.modules.remove(identifier);
-    return true;
   }
 
   public List<String> getModuleIdentifiers() {
