@@ -19,6 +19,8 @@ public class ListenerModule implements Module {
 
   @Override
   public void enable() {
+    if (enabled) return;
+
     try {
       // get constructor, and use it with our plugin
       listenerInstance = listenerClass.getConstructor(SocialCreditStupidAddon.class).newInstance(plugin);
@@ -35,6 +37,8 @@ public class ListenerModule implements Module {
 
   @Override
   public void disable() {
+    if (!enabled) return;
+
     HandlerList.unregisterAll(listenerInstance);
     enabled = false;
     plugin.getSLF4JLogger().info("{} module disabled", listenerClass.getSimpleName());
