@@ -3,6 +3,7 @@ package dev.evilsquirrelguy.sc_stupidaddon;
 import dev.evilsquirrelguy.jhaac.Config;
 import dev.evilsquirrelguy.jhaac.ConfigFile;
 import dev.evilsquirrelguy.jhaac.ConfigGroup;
+import dev.evilsquirrelguy.sc_stupidaddon.command.ConfigCommands;
 import dev.evilsquirrelguy.sc_stupidaddon.listener.ChatCensorshipListener;
 import dev.evilsquirrelguy.sc_stupidaddon.module.ListenerModule;
 import dev.evilsquirrelguy.sc_stupidaddon.module.Module;
@@ -10,6 +11,7 @@ import dev.evilsquirrelguy.sc_stupidaddon.module.ModuleManager;
 import dev.evilsquirrelguy.sc_stupidaddon.module.TaskModule;
 import dev.evilsquirrelguy.sc_stupidaddon.task.EyeContactDetection;
 import dev.evilsquirrelguy.sc_stupidaddon.task.LagDetection;
+import io.papermc.paper.plugin.lifecycle.event.types.LifecycleEvents;
 import org.bukkit.plugin.java.JavaPlugin;
 import com.example.socialcredit.api.SocialCreditAPI;
 import com.example.socialcredit.api.SocialCreditProvider;
@@ -27,13 +29,9 @@ public final class SocialCreditStupidAddon extends JavaPlugin {
   public SocialCreditAPI scApi;
   public Config config;
 
-  private ModuleManager moduleManager;
+  private final ModuleManager moduleManager = new ModuleManager();
 
-  public ModuleManager getModuleManager() {
-    return moduleManager;
-  }
-
-  public void loadConfig() {
+  private void loadConfig() {
     ConfigFile cfgFile;
     this.getSLF4JLogger().info("Attempting to load config file...");
     try {
@@ -47,12 +45,20 @@ public final class SocialCreditStupidAddon extends JavaPlugin {
     this.config = cfgFile.getConfig();
   }
 
-  public void reloadConfig() {
-    this.loadConfig();
-    this.loadModules();
+  private void registerModules() {
+    // initialise modules
+    moduleManager.registerModule(
+        "lag-detect", new TaskModule(this, LagDetection.class)
+    );
+    moduleManager.registerModule(
+        "eye-contact", new TaskModule(this, EyeContactDetection.class)
+    );
+    moduleManager.registerModule(
+        "chat-censor", new ListenerModule(this, ChatCensorshipListener.class)
+    );
   }
 
-  public void loadModules() {
+  private void loadModules() {
     // load modules conditionally
     ConfigGroup modulesToEnable = config.getGroup("modules");
 
@@ -67,6 +73,25 @@ public final class SocialCreditStupidAddon extends JavaPlugin {
       }
     }
   }
+
+  @SuppressWarnings("UnstableApiUsage")
+  private void registerCommands() {
+    // register commands
+    this.getLifecycleManager().registerEventHandler(LifecycleEvents.COMMANDS, commands -> {
+      commands.registrar().register(new ConfigCommands(this).createCommand("scstupidaddon"));
+      // commands.registrar().register();
+    });
+  }
+
+  public void reloadConfig() {
+    this.loadConfig();
+    this.loadModules();
+  }
+
+  public ModuleManager getModuleManager() {
+    return moduleManager;
+  }
+
 
   @Override
   public void onEnable() {
@@ -86,18 +111,10 @@ public final class SocialCreditStupidAddon extends JavaPlugin {
 
     loadConfig();
 
-    // initialise modules
-    moduleManager.registerModule(
-        "lag-detect", new TaskModule(this, LagDetection.class)
-    );
-    moduleManager.registerModule(
-        "eye-contact", new TaskModule(this, EyeContactDetection.class)
-    );
-    moduleManager.registerModule(
-        "chat-censor", new ListenerModule(this, ChatCensorshipListener.class)
-    );
-
+    registerModules();
     loadModules();
+
+    registerCommands();
 
   }
 
