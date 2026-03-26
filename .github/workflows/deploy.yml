@@ -4,13 +4,11 @@ on:
   release:
     types:
       - published
-      - prereleased
 
 jobs:
   modrinth:
     name: Upload to Modrinth
     runs-on: ubuntu-latest
-    if: false # skip until we have modrinth approval
 
     steps:
       - name: Download plugin JAR
@@ -18,10 +16,8 @@ jobs:
         with:
           latest: true
           fileName: '*.jar'
-          out-file-path: 'download'
 
       - name: Publish to Modrinth
-        if: false # skip for now
         uses: cloudnode-pro/modrinth-publish@v2
         with:
           token: ${{ secrets.MR_TOKEN }}
@@ -41,7 +37,7 @@ jobs:
             spigot
             bukkit
           files: |-
-            download/*.jar
+            *.jar
           dependencies: |- 
             [{
               "project_id": "8hfcZ97y",
@@ -49,35 +45,44 @@ jobs:
             }]
 
 
-  spigotmc:
-    name: Upload to SpigotMC Resources
-    runs-on: ubuntu-latest
-    if: false # skip until we figure this out
-
-    steps:
-      - name: Download plugin JAR
-        uses: robinraju/release-downloader@v1
-        with:
-          latest: true
-          fileName: '*.jar'
-          out-file-path: 'download'
-
-      - run: exit
-
   hangar:
     name: Upload to PaperMC Hangar
     runs-on: ubuntu-latest
-    if: false # skip until configured
 
     steps:
       - name: Download plugin JAR
+        id: download
         uses: robinraju/release-downloader@v1
         with:
           latest: true
           fileName: '*.jar'
-          out-file-path: 'download'
 
-      - run: exit
+      - name: Upload to Hangar
+        uses: benwoo1110/hangar-upload-action@v1
+        with:
+          api_token: ${{ secrets.HANGAR_TOKEN }}
+          slug: 'SocialCredit-StupidAddon'
+          version: ${{ github.event.release.tag_name }}
+          channel: release
+          files: |
+            [
+              {
+                "path": " ${{ fromJson(steps.download.outputs.downloaded_files)[0] }}",
+                "platforms": ["PAPER"]
+              }
+            ]
+          platform_dependencies: |
+            {
+              "PAPER": ["1.20.6", "1.21.x"]
+            }
+          plugin_dependencies: |
+            [
+              {
+                "name": "SocialCredit",
+                "required": true,
+                "externalUrl": "https://github.com/ZeeRaider/SocialCredit"
+              }
+            ]
 
   test_server:
     name: Deploy to Test Server
@@ -90,7 +95,6 @@ jobs:
         with:
           latest: true
           fileName: '*.jar'
-          out-file-path: 'download'
 
       - name: Stop server
         run: |
@@ -122,7 +126,7 @@ jobs:
           url=$(curl --request GET \
             --url '${{ env.PANEL_CLIENT_API }}/servers/${{ env.PANEL_SERVER_ID }}/files/upload' \
             --header 'Accept: application/json' \
-            --header 'Authorization: Bearer ${{ secrets.PANEL_TOKEN }}' |
+            --header 'Authorization: Bearer ${{ secrets.PANEL_TOKEN }}' \
           | jq -r '.attributes.url')
 
           echo "SIGNED_URL=$url" >> $GITHUB_ENV
@@ -134,7 +138,7 @@ jobs:
 
           curl --request POST \
             --url '${{ env.SIGNED_URL }}' \
-            -F "file=@ ${{ fromJson(steps.download.outputs.downloaded_files)[0] }}" \
+            -F "file=@${{ fromJson(steps.download.outputs.downloaded_files)[0] }}" \
             -F "directory=plugins"
 
       - name: Start server
