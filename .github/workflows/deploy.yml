@@ -2,13 +2,61 @@ name: Deploy & Upload Plugin
 
 on:
   release:
-    types:
-      - published
+    types: [published]
+
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Release tag (e.g. v0.3)'
+        required: true
 
 jobs:
+  setup:
+    name: Setup Release Info
+    runs-on: ubuntu-latest
+    outputs:
+      tag: ${{ steps.set.outputs.tag }}
+      version: ${{ steps.set.outputs.version }}
+      name: ${{ steps.set.outputs.name }}
+      changelog: ${{ steps.set.outputs.changelog }}
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0  # need all tags
+
+      - name: Determine release info
+        id: set
+        run: |
+          # get tag from input or release event
+          TAG="${{ inputs.tag || github.event.release.tag_name }}"
+          echo "TAG=$TAG"
+          
+          # version same as tag
+          VERSION="$TAG"
+          
+          # release name
+          NAME="${{ inputs.name || github.event.release.name }}"
+          if [ -z "$NAME" ]; then
+            NAME=$(git log -1 --pretty=%s $TAG)
+          fi
+          
+          # changelog
+          BODY="${{ inputs.changelog || github.event.release.body }}"
+          if [ -z "$BODY" ]; then
+            BODY=$(git log -1 --pretty=%B $TAG)
+          fi
+          
+          echo "tag=$TAG" >> $GITHUB_OUTPUT
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "name=$NAME" >> $GITHUB_OUTPUT
+          echo "changelog=$BODY" >> $GITHUB_OUTPUT
+          
+
   modrinth:
     name: Upload to Modrinth
     runs-on: ubuntu-latest
+    needs: setup
 
     steps:
       - name: Download plugin JAR
@@ -17,15 +65,22 @@ jobs:
         with:
           latest: true
           fileName: '*.jar'
+          out-file-path: '.'
+
+      - name: Move downloaded JAR to workspace root
+        run: |
+          FILE="${{ fromJson(steps.download.outputs.downloaded_files)[0] }}"
+          BASENAME=$(basename "$FILE")
+          echo "JAR_NAME=$BASENAME" >> $GITHUB_ENV
 
       - name: Publish to Modrinth
         uses: cloudnode-pro/modrinth-publish@v2
         with:
           token: ${{ secrets.MR_TOKEN }}
           project: ${{ vars.MR_PRJID }}
-          name: ${{ github.event.release.name }}
-          version: ${{ github.event.release.tag_name }}
-          changelog: ${{ github.event.release.body }}
+          name: ${{ steps.download.outputs.release_name }}
+          version: ${{ steps.download.outputs.tag_name }}
+          changelog: ${{ needs.setup.outputs.changelog }}
           # channel: alpha
           game-versions: |-
             1.21.x
@@ -37,8 +92,9 @@ jobs:
             paper
             spigot
             bukkit
+            purpur
           files: |-
-            ${{ fromJson(steps.download.outputs.downloaded_files)[0] }}
+            ${{ env.JAR_NAME }}
           dependencies: |- 
             [{
               "project_id": "8hfcZ97y",
@@ -49,26 +105,31 @@ jobs:
   hangar:
     name: Upload to PaperMC Hangar
     runs-on: ubuntu-latest
+    if: false # doesn't work
+    needs: setup
 
     steps:
-      - name: Download plugin JAR
-        id: download
-        uses: robinraju/release-downloader@v1
-        with:
-          latest: true
-          fileName: '*.jar'
+      - name: Get plugin JAR URL
+        id: url
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          url=$(gh release view ${{ needs.setup.outputs.tag }} --repo ${{ github.repository }} \
+            --json assets | jq '.assets[] | .url')
+          echo "JAR_URL=$url" >> $GITHUB_ENV
 
       - name: Upload to Hangar
         uses: benwoo1110/hangar-upload-action@v1
         with:
           api_token: ${{ secrets.HANGAR_TOKEN }}
           slug: 'SocialCredit-StupidAddon'
-          version: ${{ github.event.release.tag_name }}
+          version: ${{ needs.setup.outputs.tag }}
           channel: release
           files: |
             [
               {
-                "path": "${{ fromJson(steps.download.outputs.downloaded_files)[0] }}",
+                "url": true,
+                "externalUrl": ${{ env.JAR_URL }},
                 "platforms": ["PAPER"]
               }
             ]
@@ -88,6 +149,8 @@ jobs:
   test_server:
     name: Deploy to Test Server
     runs-on: ubuntu-latest
+    if: false # doesn't even work cuz of cloudflare uggghhhhh
+    needs: setup
 
     steps:
       - name: Download plugin JAR
@@ -96,6 +159,9 @@ jobs:
         with:
           latest: true
           fileName: '*.jar'
+          out-file-path: '.'
+
+      - run: ls -R .
 
       - name: Stop server
         run: |
@@ -129,6 +195,8 @@ jobs:
             --header 'Accept: application/json' \
             --header 'Authorization: Bearer ${{ secrets.PANEL_TOKEN }}' \
           | jq -r '.attributes.url')
+          
+          echo "Response: $url"
 
           echo "SIGNED_URL=$url" >> $GITHUB_ENV
 
