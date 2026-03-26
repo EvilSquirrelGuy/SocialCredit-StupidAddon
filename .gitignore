@@ -29,16 +29,12 @@ gradle-app.setting
 # ignore everything in run (server test env)
 run/*
 
-# allow root files
-!run/*.*
+# allow eula
+!run/eula.txt
 
-# allow directories themselves
-!run/plugins/
-!run/config/
+# allow plugins
+!run/plugins/*.jar
+# allow config
+!run/plugins/SocialCreditStupidAddon/**
 
-# then allow their contents
-!run/plugins/**
-!run/config/**
 
-# and finally disallow paper remapped
-run/plugins/.*
