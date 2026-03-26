@@ -42,7 +42,7 @@ jobs:
             mv "$f" "${f%-all.jar}.jar"
           done
 
-      - name: Upload artefacts
+      - name: Upload artefact
         uses: actions/upload-artifact@v7
         with:
           path: build/libs/*.jar
@@ -70,7 +70,7 @@ jobs:
         run: |
           # get last tag, fallback to first commit if no tag exists
           # last tag or first commit
-          LAST_TAG=$(git describe --tags --abbrev=0 2>/dev/null || git rev-list --max-parents=0 HEAD)
+          LAST_TAG=$(git tag --sort=-creatordate | sed -n '2p')
           FIRST_COMMIT=$(git rev-list --max-parents=0 HEAD)
           LATEST_COMMIT=$(git rev-parse HEAD)
           
@@ -78,7 +78,7 @@ jobs:
           REPO_URL=${{github.server_url}}/${{ github.repository }}
   
           # create changelog file
-          echo "## New Features\n\n\n# Changelog" > CHANGELOG.txt
+          echo "## New Features\n\n\n## Changelog" > CHANGELOG.txt
           # generate actual release notes
           git log $LAST_TAG..HEAD \
             --pretty=format:"[\`%h\`]($REPO_URL/commit/%H) - %s" \
