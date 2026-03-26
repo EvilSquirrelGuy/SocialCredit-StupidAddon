@@ -6,6 +6,7 @@ import dev.evilsquirrelguy.jhaac.ConfigGroup;
 import dev.evilsquirrelguy.sc_stupidaddon.listener.ChatCensorshipListener;
 import dev.evilsquirrelguy.sc_stupidaddon.module.ListenerModule;
 import dev.evilsquirrelguy.sc_stupidaddon.module.Module;
+import dev.evilsquirrelguy.sc_stupidaddon.module.ModuleManager;
 import dev.evilsquirrelguy.sc_stupidaddon.module.TaskModule;
 import dev.evilsquirrelguy.sc_stupidaddon.task.EyeContactDetection;
 import dev.evilsquirrelguy.sc_stupidaddon.task.LagDetection;
@@ -26,7 +27,11 @@ public final class SocialCreditStupidAddon extends JavaPlugin {
   public SocialCreditAPI scApi;
   public Config config;
 
-  private Map<String, Module> modules = new HashMap<>();
+  private ModuleManager moduleManager;
+
+  public ModuleManager getModuleManager() {
+    return moduleManager;
+  }
 
   public void loadConfig() {
     ConfigFile cfgFile;
@@ -51,8 +56,8 @@ public final class SocialCreditStupidAddon extends JavaPlugin {
     // load modules conditionally
     ConfigGroup modulesToEnable = config.getGroup("modules");
 
-    for (String key : modules.keySet()) {
-      Module module = modules.get(key);
+    for (String key : moduleManager.getModuleIdentifiers()) {
+      Module module = moduleManager.getModule(key);
 
       // check if enabled
       if (modulesToEnable.getEntry(key).getBoolean()) {
@@ -61,10 +66,6 @@ public final class SocialCreditStupidAddon extends JavaPlugin {
         module.disable();
       }
     }
-  }
-
-  public List<String> getModules() {
-    return new ArrayList<>(modules.keySet());
   }
 
   @Override
@@ -86,13 +87,13 @@ public final class SocialCreditStupidAddon extends JavaPlugin {
     loadConfig();
 
     // initialise modules
-    modules.put(
+    moduleManager.registerModule(
         "lag-detect", new TaskModule(this, LagDetection.class)
     );
-    modules.put(
+    moduleManager.registerModule(
         "eye-contact", new TaskModule(this, EyeContactDetection.class)
     );
-    modules.put(
+    moduleManager.registerModule(
         "chat-censor", new ListenerModule(this, ChatCensorshipListener.class)
     );
 
@@ -105,7 +106,7 @@ public final class SocialCreditStupidAddon extends JavaPlugin {
     // Plugin shutdown logic
 
     // disable all modules
-    for (Module module : modules.values()) {
+    for (Module module : moduleManager.getModules()) {
       module.disable();
     }
   }
