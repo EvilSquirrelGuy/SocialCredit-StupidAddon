@@ -12,6 +12,7 @@ jobs:
 
     steps:
       - name: Download plugin JAR
+        id: download
         uses: robinraju/release-downloader@v1
         with:
           latest: true
@@ -21,7 +22,7 @@ jobs:
         uses: cloudnode-pro/modrinth-publish@v2
         with:
           token: ${{ secrets.MR_TOKEN }}
-          project: ${{ env.MR_PRJID }}
+          project: ${{ vars.MR_PRJID }}
           name: ${{ github.event.release.name }}
           version: ${{ github.event.release.tag_name }}
           changelog: ${{ github.event.release.body }}
@@ -37,7 +38,7 @@ jobs:
             spigot
             bukkit
           files: |-
-            *.jar
+            ${{ fromJson(steps.download.outputs.downloaded_files)[0] }}
           dependencies: |- 
             [{
               "project_id": "8hfcZ97y",
@@ -67,7 +68,7 @@ jobs:
           files: |
             [
               {
-                "path": " ${{ fromJson(steps.download.outputs.downloaded_files)[0] }}",
+                "path": "${{ fromJson(steps.download.outputs.downloaded_files)[0] }}",
                 "platforms": ["PAPER"]
               }
             ]
@@ -99,7 +100,7 @@ jobs:
       - name: Stop server
         run: |
           curl --request POST \
-            --url '${{ env.PANEL_CLIENT_API }}/servers/${{ env.PANEL_SERVER_ID }}/power' \
+            --url '${{  vars.PANEL_CLIENT_API }}/servers/${{ vars.PANEL_SERVER_ID }}/power' \
             --header 'Accept: application/json' \
             --header 'Authorization: Bearer ${{ secrets.PANEL_TOKEN }}' \
             --header 'Content-Type: application/json' \
@@ -110,7 +111,7 @@ jobs:
       - name: Remove old versions
         run: |
           curl --request POST \
-            --url '${{ env.PANEL_CLIENT_API }}/servers/${{ env.PANEL_SERVER_ID }}/files/delete' \
+            --url '${{ vars.PANEL_CLIENT_API }}/servers/${{ vars.PANEL_SERVER_ID }}/files/delete' \
             --header 'Accept: application/json' \
             --header 'Authorization: Bearer ${{ secrets.PANEL_TOKEN }}' \
             --header 'Content-Type: application/json' \
@@ -124,7 +125,7 @@ jobs:
       - name: Get upload URL
         run: |
           url=$(curl --request GET \
-            --url '${{ env.PANEL_CLIENT_API }}/servers/${{ env.PANEL_SERVER_ID }}/files/upload' \
+            --url '${{ vars.PANEL_CLIENT_API }}/servers/${{ vars.PANEL_SERVER_ID }}/files/upload' \
             --header 'Accept: application/json' \
             --header 'Authorization: Bearer ${{ secrets.PANEL_TOKEN }}' \
           | jq -r '.attributes.url')
@@ -144,7 +145,7 @@ jobs:
       - name: Start server
         run: |
           curl --request POST \
-            --url '${{ env.PANEL_CLIENT_API }}/servers/${{ env.PANEL_SERVER_ID }}/power' \
+            --url '${{ vars.PANEL_CLIENT_API }}/servers/${{ vars.PANEL_SERVER_ID }}/power' \
             --header 'Accept: application/json' \
             --header 'Authorization: Bearer ${{ secrets.PANEL_TOKEN }}' \
             --header 'Content-Type: application/json' \
