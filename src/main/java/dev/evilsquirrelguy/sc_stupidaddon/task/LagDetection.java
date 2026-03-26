@@ -8,12 +8,19 @@ import dev.evilsquirrelguy.sc_stupidaddon.util.MessageFormatter;
 import net.kyori.adventure.text.TextComponent;
 
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 
-public class LagDetection implements Runnable {
+public class LagDetection implements ScheduledTask {
   /**
    * Drop all players' social credit score when the server is lagging :)
    */
+
+  @Override
+  public long getDelay() { return TimeUnit.MINUTES.toSeconds(1) * 20; }
+
+  @Override
+  public long getInterval() { return getDelay(); }
 
   private final SocialCreditStupidAddon plugin;
 

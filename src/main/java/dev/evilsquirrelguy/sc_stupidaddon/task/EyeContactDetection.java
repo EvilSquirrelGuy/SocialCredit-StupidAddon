@@ -9,7 +9,13 @@ import org.bukkit.entity.Player;
 import java.util.HashMap;
 import java.util.UUID;
 
-public class EyeContactDetection implements Runnable {
+public class EyeContactDetection implements ScheduledTask {
+
+  @Override
+  public long getDelay() { return 0L; }
+
+  @Override
+  public long getInterval() { return 1L; }
 
   private final SocialCreditStupidAddon plugin;
   private final long maxLookDuration;
