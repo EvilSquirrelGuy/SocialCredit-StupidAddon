@@ -12,8 +12,6 @@ group = project.property("group") as String
 version = project.property("version") as String
 
 
-
-
 val targetMcVersion = project.property("target") as String
 
 val mcVersionArray = targetMcVersion.split(".").map(String::toInt)
@@ -80,7 +78,6 @@ tasks {
         }
     }
 
-    // only works if shadow plugin is applied
     shadowJar {
         if (!isOlder(mcVersionArray, listOf(1, 20, 5))) {
             manifest {
