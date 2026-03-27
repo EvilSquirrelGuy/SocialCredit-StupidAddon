@@ -2,7 +2,7 @@
 
 Hello! You want to help out with developing the Stupid Addon? Very cool, come on in.
 
-Before you get started, I trust you've read the [Contributing](README.md#contributing) section of the README, if you
+Before you get started, I trust you've read the [Developing](README.md#developing) section of the README, if you
 haven't, go back and read over that, since this document is just for guidelines. It won't explain much else.
 
 With that out of the way, here's the main guidelines that you should follow to make sure your contribution passes
