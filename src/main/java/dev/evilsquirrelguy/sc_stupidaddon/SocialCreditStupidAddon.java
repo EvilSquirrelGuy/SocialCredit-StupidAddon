@@ -1,3 +1,9 @@
+/*
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ */
+
 package dev.evilsquirrelguy.sc_stupidaddon;
 
 import dev.evilsquirrelguy.jhaac.Config;
@@ -74,6 +80,8 @@ public final class SocialCreditStupidAddon extends JavaPlugin {
     // register commands
     this.getLifecycleManager().registerEventHandler(LifecycleEvents.COMMANDS, commands -> {
       commands.registrar().register(new ConfigCommands(this).createCommand("scstupidaddon"));
+      // alias it
+      commands.registrar().register(new ConfigCommands(this).createCommand("stupid"));
       // commands.registrar().register();
     });
   }
