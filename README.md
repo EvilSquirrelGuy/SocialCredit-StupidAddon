@@ -255,12 +255,14 @@ This project and all its source files are protected by the Mozilla Public Licens
 means that any changes you make to the files in this project must be released under the same licence (publicly, of
 course), same goes for whatever code you might use from here.
 
+All images, videos, and all multimedia files in this project are licensed under the CC-BY-SA 4.0 licence unless
+otherwise stated. You can read the full licence text for that [here](https://creativecommons.org/licenses/by-sa/4.0/deed.en).
+
 This isn't legal advice though. And what you're _bound by_ is the actual licence text itself, so you may want to go and
 read the [licence file](LICENCE), or check out [choosealicense.com](https://choosealicense.com/licenses/mpl-2.0/).
 
-Or just go [ask chatgpt](chatgpt.com/?q=explain+the+terms+of+the+mpl+2.0+like+im+completely+stupid+and+know+nothing) to
+Or just go [ask chatgpt](https://chatgpt.com/?q=explain+the+terms+of+the+mpl+2.0+like+im+completely+stupid+and+know+nothing) to
 explain it to you if you're feeling extra lazy.
-
 
 
 ## Interesting but irrelevant bits
