@@ -66,6 +66,22 @@ jobs:
         with:
           path: download
 
+      - name: Get tag message
+        id: tagmsg
+        run: |
+          TAG_NAME=${GITHUB_REF#refs/tags/}
+
+          # get tag message (annotated tag)
+          TAG_MESSAGE=$(git for-each-ref refs/tags/$TAG_NAME --format='%(contents)' | head -n 1)
+
+          # fallback if lightweight tag (no message)
+          if [ -z "$TAG_MESSAGE" ]; then
+            TAG_MESSAGE="$TAG_NAME"
+          fi
+          
+          echo "message=$TAG_MESSAGE" >> $GITHUB_OUTPUT
+          
+
       - name: Generate release notes
         run: |
           # get last tag, fallback to first commit if no tag exists
@@ -86,7 +102,7 @@ jobs:
           
           # add link full link to commits
           COMPARE_START=${LAST_TAG:-$FIRST_COMMIT}
-          echo "Full log: $REPO_URL/compare/$COMPARE_START..$LATEST_COMMIT"
+          echo "Full log: $REPO_URL/compare/$COMPARE_START..$LATEST_COMMIT" >> CHANGELOG.txt
 
       - name: Create draft release
         uses: softprops/action-gh-release@v2
@@ -95,3 +111,4 @@ jobs:
             download/*.jar
           body_path: CHANGELOG.txt
           draft: true
+          name: ${{ steps.tagmsg.outputs.message }}
