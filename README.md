@@ -60,6 +60,25 @@ does everything so well! ~~(Or realistically, so badly, but shhhh.)~~
 - ~~Easy~~ *Horrible* configuration system that uses HTML-as-a-config. You'll end up settling for the defaults!
 - *Modular* module API. That means you can actually extend the plugin without (too much) pain!
 
+
+## How Do I Use This?
+
+So you've decided to download this plugin for your server. First of all, I'd like to offer you my condolences for your
+impending loss (of sanity). Here's what you need to do to get it up and running in no time (or realistically anywhere
+from 60 seconds to 60 hours):
+
+1. Make sure you actually have all the correct software. You need _all_ of these things for this to work:
+    - A working **Paper** server (1.21.1+ recommended, should work on 1.20.6+)
+    - The [SocialCredit](https://github.com/ZeeRaider/SocialCredit) Core plugin installed on your server
+2. Once you're absolutely sure you have all those things, download the latest version of the SocialCredit – Stupid Addon
+   from the GitHub releases tab, Modrinth, or Hangar.
+3. Put it in the `plugins/` folder on your server.
+4. Restart it
+5. Congratulations, the Stupid Addon is now loaded! You can be proud of yourself now!
+6. _(Optional)_ Edit the config file. You can find it at `plugins/SocialCredit-StupidAddon/config.html`. If you're
+   struggling with the format, go read [Configuration](#configuration).
+
+
 ## FAQs
 **AKA**: _'Questions that literally no-one would ever ask'_.
 
@@ -142,6 +161,13 @@ weirdness introduced by the config system:
 
 As an end user, none of these apply to you. Except maybe the info on how to store boolean values. Yes, that might be
 relevant. 
+
+
+## Gallery
+
+<img src="img/lag-detect.png" alt="lag detection module" width="500">
+<img src="img/eye-contact.png" alt="eye contact module" width="500">
+<img src="img/chat-censor.png" alt="chat censorship module" width="500">
 
 
 ## Developing
