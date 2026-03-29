@@ -13,3 +13,5 @@ contributors: ${contributors} # if you contributed, you can add your github user
 api-version: ${api_version}
 main: ${main}
 depend: [SocialCredit]
+libraries:
+  - org.jsoup:jsoup:1.22.1

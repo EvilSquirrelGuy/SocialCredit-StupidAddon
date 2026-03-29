@@ -203,6 +203,11 @@ Once you've cloned the repo, you can start developing! Just kidding, you have to
 
 ### Dependencies
 
+This project uses packages built using [jitpack.io](https://jitpack.io). If there's a new version of JHaaC pushed, your
+build will probably fail for a minute or two until jitpack builds the library. You can check the status
+[here](https://jitpack.io/#EvilSquirrelGuy/JHaaC). 
+
+<!-- out of date, just in case you wanted to use GPR instead of jitpack ig?
 The project uses packages from GitHub's package repository, which you need a token to access, go make one
 [here](https://github.com/settings/tokens). I'd suggest **not** committing your secrets to Git – it's bad practice.
 Instead, create `~/.gradle/gradle.properties` and add the following lines to it (obviously replace the placeholders).
@@ -211,6 +216,7 @@ Instead, create `~/.gradle/gradle.properties` and add the following lines to it 
 gpr.user=YourGitHubUsername
 gpr.token=ghp_USEYOURPERSONALACCESSTOKENTHATYOUJUSTGENERATED
 ```
+-->
 
 But wait, you're not done yet! Well, you might be, but just make sure that the latest SocialCredit JAR is in the `lib/`
 directory. It should be, it's on VCS, but just go check just in case.

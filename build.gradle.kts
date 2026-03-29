@@ -39,26 +39,32 @@ repositories {
         url = uri("https://repo.papermc.io/repository/maven-public/")
     }
     maven {
-        name = "JHaaC"
-        url = uri("https://maven.pkg.github.com/EvilSquirrelGuy/JHaaC")
-        credentials {
-            username = project.findProperty("gpr.user") as String? ?: System.getenv("GPR_USER")
-            password = project.findProperty("gpr.token") as String? ?: System.getenv("GPR_TOKEN")
-        }
+        name = "jitpack"
+        url = uri("https://jitpack.io/")
     }
+//    maven {
+//        name = "JHaaC"
+//        url = uri("https://maven.pkg.github.com/EvilSquirrelGuy/JHaaC")
+//        credentials {
+//            username = project.findProperty("gpr.user") as String? ?: System.getenv("GPR_USER")
+//            password = project.findProperty("gpr.token") as String? ?: System.getenv("GPR_TOKEN")
+//        }
+//    }
 }
 
 dependencies {
-    // yes.
+    // yes. or no.
     // implementation("org.spongepowered:configurate-xml:4.2.0")
     // Paper API
     compileOnly("io.papermc.paper:paper-api:${targetMcVersion}-R0.1-SNAPSHOT")
     // Compilation libs
-    // dynamic link
+    // can be linked dynamically
     compileOnly(files("lib/SocialCredit_v1.6.2.jar"))
-    // needed in final
-    implementation("org.jsoup:jsoup:1.22.1")
-    implementation("dev.evilsquirrelguy.jhaac:jhaac:0.1.1")
+    // this can be loaded by plugin.yml dependency list
+    compileOnly("org.jsoup:jsoup:1.22.1")
+    // this MUST be shaded into the jar
+    //implementation("dev.evilsquirrelguy.jhaac:jhaac:0.1.1")
+    implementation("com.github.EvilSquirrelGuy:JHaaC:0.1.2")
 }
 
 
