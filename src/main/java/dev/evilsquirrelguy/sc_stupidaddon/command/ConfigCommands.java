@@ -13,6 +13,10 @@ import dev.evilsquirrelguy.sc_stupidaddon.SocialCreditStupidAddon;
 import dev.evilsquirrelguy.sc_stupidaddon.module.Module;
 import io.papermc.paper.command.brigadier.CommandSourceStack;
 import io.papermc.paper.command.brigadier.Commands;
+import org.bukkit.command.CommandSender;
+
+import java.util.List;
+import java.util.Objects;
 
 public class ConfigCommands {
   private final SocialCreditStupidAddon plugin;
@@ -37,6 +41,24 @@ public class ConfigCommands {
         )
         // module management
         .then(Commands.literal("module")
+            .executes(ctx -> {
+              List<String> moduleIds = plugin.getModuleManager().getModuleIdentifiers();
+              // use colours to show if modules are enabled
+              List<String> colouredModules = moduleIds.stream().map(module -> {
+                if (plugin.getModuleManager().getModule(module).isEnabled()) {
+                  return "<green>" + module + "</green>";
+                } else {
+                  return "<red>" + module + "</red>";
+                }
+              }).sorted().toList();
+
+              CommandSender src = Objects.requireNonNullElse(ctx.getSource().getExecutor(), ctx.getSource().getSender());
+
+              src.sendRichMessage("<yellow>The follwing modules are available:</yellow>");
+              src.sendRichMessage(String.join(", ", colouredModules));
+
+              return Command.SINGLE_SUCCESS;
+            })
             .then(Commands.argument("module", StringArgumentType.word())
                 // suggest modules
                 .suggests((ctx, builder) -> {
@@ -51,13 +73,15 @@ public class ConfigCommands {
                       String moduleName = StringArgumentType.getString(ctx, "module");
                       Module mod = plugin.getModuleManager().getModule(moduleName);
 
+                      CommandSender src = Objects.requireNonNullElse(ctx.getSource().getExecutor(), ctx.getSource().getSender());
+
                       if (mod == null) {
-                        ctx.getSource().getExecutor().sendRichMessage("<red>Error: No such module <gold>%s</gold></red>".formatted(moduleName));
+                        src.sendRichMessage("<red>Error: No such module <gold>%s</gold></red>".formatted(moduleName));
                       } else if (mod.isEnabled()) {
-                        ctx.getSource().getExecutor().sendRichMessage("<yellow>Module <gold>%s</gold> already enabled.</yellow>".formatted(moduleName));
+                        src.sendRichMessage("<yellow>Module <gold>%s</gold> already enabled.</yellow>".formatted(moduleName));
                       } else {
                         mod.enable();
-                        ctx.getSource().getExecutor().sendRichMessage("<green>Enabled</green><yellow> module <gold>%s</gold></yellow>".formatted(moduleName));
+                        src.sendRichMessage("<green>Enabled</green><yellow> module <gold>%s</gold></yellow>".formatted(moduleName));
                       }
                       return Command.SINGLE_SUCCESS;
                     })
@@ -67,13 +91,15 @@ public class ConfigCommands {
                       String moduleName = StringArgumentType.getString(ctx, "module");
                       Module mod = plugin.getModuleManager().getModule(moduleName);
 
+                      CommandSender src = Objects.requireNonNullElse(ctx.getSource().getExecutor(), ctx.getSource().getSender());
+
                       if (mod == null) {
-                        ctx.getSource().getExecutor().sendRichMessage("<red>Error: No such module <gold>%s</gold></red>".formatted(moduleName));
+                        src.sendRichMessage("<red>Error: No such module <gold>%s</gold></red>".formatted(moduleName));
                       } else if (!mod.isEnabled()) {
-                        ctx.getSource().getExecutor().sendRichMessage("<yellow>Module <gold>%s</gold> already disabled.</yellow>".formatted(moduleName));
+                        src.sendRichMessage("<yellow>Module <gold>%s</gold> already disabled.</yellow>".formatted(moduleName));
                       } else {
                         mod.disable();
-                        ctx.getSource().getExecutor().sendRichMessage("<red>Disabled</red><yellow> module <gold>%s</gold></yellow>".formatted(moduleName));
+                        src.sendRichMessage("<red>Disabled</red><yellow> module <gold>%s</gold></yellow>".formatted(moduleName));
                       }
                       return Command.SINGLE_SUCCESS;
                     })
