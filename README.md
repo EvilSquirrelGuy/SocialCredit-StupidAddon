@@ -31,6 +31,8 @@ suffer'*. With that out of the way, here are the main things that this plugin do
 - [x] Eye Contact Prevention – Make awkward eye contact a thing of the past!
 - [x] Chat Censorship – Are you tired of players screaming SIX SEVENNNN? No? Then never fear, this plugin will solve
       your non-existent issue straight away<sup>1</sup>.
+- [x] Child Safety – Encourage a positive environment for children on the server by additionally punishing players for
+      performing disruptive actions... when a child is near!
 - [ ] Conversation monitoring – A good civilisation is built on communication! That's why you should strive to
       uphold communication with your comrades. Also the state is watching, and rudeness will **not** be tolerated.
 - [ ] Player reporting – Do you feel like someone is doing something The Ministry would not approve of? Do you want to
