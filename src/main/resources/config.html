@@ -35,15 +35,12 @@
     </p>
     <!-- actual config goes here -->
     <main id="config">
-      <section id="internal">
-        <!-- Should we disable all optimisations? -->
-        <input name="lag-mode" type="checkbox" />
-      </section>
       <!-- which modules to load -->
       <section id="modules">
         <input name="lag-detect" type="checkbox" checked />
         <input name="eye-contact" type="checkbox" checked />
         <input name="chat-censor" type="checkbox" checked />
+        <input name="child-safety" type="checkbox" checked />
       </section>
       <!-- settings for the lag detect module -->
       <section id="lag-detect">
@@ -87,6 +84,21 @@
           <option value="/(six.{0,2}(\s|-)seven*)|(67)/i"></option>
           <option value="/skibidi(\stoilet)?/gi"></option>
         </select>
+      </section>
+      <!-- Child saftey settings -->
+      <section id="child-safety">
+        <!-- social credit penalty -->
+        <input name="penalty" value="2" type="number"/>
+        <!-- entity search radius -->
+        <input name="search" value="5" type="number"/>
+        <!-- reason -->
+        <input name="reason" value="Setting a bad example" type="text" />
+        <!-- message -->
+        <input name="message" value="The Ministry encourages citizens to set a good example to children." type="text" />
+      </section>
+      <!-- Internal settings. DON'T TOUCH UNLESS YOU KNOW WHAT YOU ARE DOING -->
+      <section id="internal">
+        <!-- no internal settings lol -->
       </section>
     </main>
     <!-- end config -->

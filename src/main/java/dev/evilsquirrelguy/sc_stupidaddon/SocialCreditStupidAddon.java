@@ -11,6 +11,7 @@ import dev.evilsquirrelguy.jhaac.ConfigFile;
 import dev.evilsquirrelguy.jhaac.ConfigGroup;
 import dev.evilsquirrelguy.sc_stupidaddon.command.ConfigCommands;
 import dev.evilsquirrelguy.sc_stupidaddon.listener.ChatCensorshipListener;
+import dev.evilsquirrelguy.sc_stupidaddon.listener.ChildSafetyListener;
 import dev.evilsquirrelguy.sc_stupidaddon.module.ListenerModule;
 import dev.evilsquirrelguy.sc_stupidaddon.module.Module;
 import dev.evilsquirrelguy.sc_stupidaddon.module.ModuleManager;
@@ -34,10 +35,10 @@ public final class SocialCreditStupidAddon extends JavaPlugin {
 
   private void loadConfig() {
     ConfigFile cfgFile;
-    this.getSLF4JLogger().info("Attempting to load config file...");
+    this.getSLF4JLogger().debug("Attempting to load config file...");
     try {
       cfgFile = new ConfigFile(new File(getDataFolder(), "config.html"));
-      this.getSLF4JLogger().info("Loaded config file successfully");
+      this.getSLF4JLogger().debug("Loaded config file successfully");
     } catch (IOException e) {
       this.getSLF4JLogger().error("Failed to load config file", e);
       return;
@@ -56,6 +57,9 @@ public final class SocialCreditStupidAddon extends JavaPlugin {
     );
     moduleManager.registerModule(
         "chat-censor", new ListenerModule(this, ChatCensorshipListener.class)
+    );
+    moduleManager.registerModule(
+        "child-safety", new ListenerModule(this, ChildSafetyListener.class)
     );
   }
 
@@ -77,7 +81,6 @@ public final class SocialCreditStupidAddon extends JavaPlugin {
 
   @SuppressWarnings("UnstableApiUsage")
   private void registerCommands() {
-    // register commands
     this.getLifecycleManager().registerEventHandler(LifecycleEvents.COMMANDS, commands -> {
       commands.registrar().register(new ConfigCommands(this).createCommand("scstupidaddon"));
       // alias it
@@ -102,6 +105,7 @@ public final class SocialCreditStupidAddon extends JavaPlugin {
     // generate config (or, well, copy it)
     // yeah... i was serious, it is HTML
     saveResource("config.html", false);
+    loadConfig();
 
     // load the social credit api (safely)
     if (!SocialCreditProvider.isAvailable()) {
@@ -111,8 +115,6 @@ public final class SocialCreditStupidAddon extends JavaPlugin {
     }
 
     this.scApi = SocialCreditProvider.get();
-
-    loadConfig();
 
     registerModules();
     loadModules();
