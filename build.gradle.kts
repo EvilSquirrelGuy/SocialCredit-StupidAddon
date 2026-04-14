@@ -59,7 +59,7 @@ dependencies {
     compileOnly("io.papermc.paper:paper-api:${targetMcVersion}-R0.1-SNAPSHOT")
     // Compilation libs
     // can be linked dynamically
-    compileOnly(files("lib/SocialCredit_v1.6.2.jar"))
+    compileOnly(files("lib/SocialCredit_v1.6.3.jar"))
     // this can be loaded by plugin.yml dependency list
     compileOnly("org.jsoup:jsoup:1.22.1")
     // this MUST be shaded into the jar

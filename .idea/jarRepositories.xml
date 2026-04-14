@@ -26,5 +26,10 @@
       <option name="name" value="JHaaC" />
       <option name="url" value="https://maven.pkg.github.com/EvilSquirrelGuy/JHaaC" />
     </remote-repository>
+    <remote-repository>
+      <option name="id" value="jitpack" />
+      <option name="name" value="jitpack" />
+      <option name="url" value="https://jitpack.io/" />
+    </remote-repository>
   </component>
 </project>
